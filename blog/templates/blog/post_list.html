@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+{% load html_filter %}
+{% load static %}
+
+{% block content %}
+{% for post in posts %}
+
+<div class="to-detail-page">
+    <a class="to-detail" href="{% url 'post_detail' pk=post.pk %}"></a>
+    <div class="list-container">
+        <div class="post-list">
+            <h1><a class="post-title" href="{% url 'post_detail' pk=post.pk %}">{{post.title}}</a></h１>
+                <div class="date">
+                    <p>投稿日時: {{post.published_date }}</p>
+                </div>
+                <p>{{post.text|truncatechars:50|markdown_to_html|safe}}</p>
+                <a class="to-comment" href="{% url 'post_detail' pk=post.pk %}">Comments:
+                    {{post.approved_comments.count }}</a>
+        </div>
+        <br>
+    </div>
+</div>
+
+{% endfor %}
+{% endblock %}

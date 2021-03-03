@@ -1,0 +1,59 @@
+{% extends 'blog/base.html' %}
+{% load html_filter %}
+
+{% block content %}
+<div class="post">
+    {% if post.published_date %}
+    <div class="detail-space"></div>
+
+    <div class="detail-button-list">
+        {% else %}
+        <div class="detail-button-list">
+            <a class="detail-menu button" href="{% url 'post_publish' pk=post.pk %}"><i
+                    class="far fa-paper-plane"></i></a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a class="detail-menu button" href="{% url 'post_edit' pk=post.pk %}"><i class="far fa-edit"></i></a>
+            <a class="detail-menu button" href="{% url 'post_remove' pk=post.pk %}"><i class="far fa-trash-alt"></i></a>
+
+            {% endif %}
+        </div>
+
+
+        <div class="detail-space"></div>
+        <div class="date">
+            投稿日時: {{post.published_date}}
+        </div>
+        <div class="detail-post">
+            <!-- <h2><big>{{post.title}}</big></h2> -->
+            <p><big>{{post.text|markdown_to_html|safe}}</big></p>
+        </div>
+        <!-- ボタンのデフォルトクラス btn btn-default -->
+
+        <hr class="content-comment-divide">
+        <a class="button add-comment" href="{% url 'add_comment_to_post' pk=post.pk %}"><i
+                class="fas fa-comments"></i>Add
+            comment</a>
+        <div class="space"></div>
+        {% for comment in post.comments.all %}
+        {% if user.is_authenticated or comment.approved_comment %}
+        <div class="comment">
+            <div class="date">
+                {{ comment.created_date }}
+                {% if not comment.approved_comment %}
+                <a class="button comment-approve" href="{% url 'comment_remove' pk=comment.pk %}">
+                    <i class="fas fa-times"></i></a>
+                <a class="button comment-approve" href="{% url 'comment_approve' pk=comment.pk %}">
+                    <i class="far fa-check-circle"></i></a>
+                {% endif %}
+            </div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+
+        {% endif %}
+        {% empty %}
+        <p>まだコメントはありません</p>
+        {% endfor %}
+    </div>
+    {% endblock %}

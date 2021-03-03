@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+{% load html_filter %}
+
+{% block content %}
+<div class="draft-list">
+    <h1>未投稿記事一覧</h1>
+    {% if not posts %}
+    <div class="none-draft">
+        <h3>未投稿記事はありません</h3>
+    </div>
+    {% else %}
+    {% for post in posts %}
+    <div class="post">
+        <p class="date">created: {{post.created_date|date:'d-m-Y'}}</p>
+        <h1><a href="{% url 'post_detail' pk=post.pk %}">{{post.title}}</a></h1>
+        <p>{{post.text|truncatechars:200|markdown_to_html}}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

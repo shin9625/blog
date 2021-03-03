@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<h2 class="new-post-title">New post</h2>
+<form method="post" class="post-form">
+    {% csrf_token %}
+    <p><strong>タイトル</strong></p>
+    <p>{{form.title}}</p>
+    <p><strong>本文</strong></p>
+    <p>{{form.text}}</p>
+    <button type="submit" class="save button"><i class="far fa-save"></i></button>
+</form>
+{{form.media}}
+
+<!-- ボタンのクラス save btn btn-default -->
+
+{% endblock %}

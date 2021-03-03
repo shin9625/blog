@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h1>New comment</h1>
+<form method="POST" class="post-form">{% csrf_token %}
+    <p><strong>名前:</strong></p>
+    <p>{{form.author}}</p>
+    <p><strong>コメント:</strong></p>
+    <p>{{form.text}}</p>
+    <!-- {{ form.as_p }} -->
+    <button type="submit" class="button">Send</button>
+</form>
+{% endblock %}
